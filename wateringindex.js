@@ -125,22 +125,24 @@ var wateringProviders = {
        extract: function (text) {
           debugLog ('Searching index in '+text);
           text = text.toLowerCase();
-          while (text.search(/<item>/)) {
-             var item = text.substring (text.search(/<item>/),
-                                        text.search(/<\/item>/));
-             text = text.substring (text.search(/<\/item>/));
+          while (text.search(/<item>/) > 0) {
+             debugLog ('Search in text '+text);
+             var end = text.search(/<\/item>/);
+             var item = text.substring (text.search(/<item>/), end);
 
              debugLog ('Found item '+item);
-             if (item.search('daily watering index')) {
+             if (item.search(/weekly watering index/) > 0) {
                 item = item.substring (item.search(/<description>/),
                                        item.search(/<\/description>/));
                 item = item.substring (item.search(/[0-9]/));
                 var index = parseInt(item, 10);
-                debugLog ('found MWDSOCAL watering index '+index);
+                debugLog ('found weekly MWDSOCAL watering index '+index);
                 return index;
              }
+
+             text = text.substring (end+"</item>".length);
           }
-          errorLog ('No daily index found in MWDSOCAL RSS data');
+          errorLog ('No weekly index found in MWDSOCAL RSS data');
           return 100;
        }
     }
