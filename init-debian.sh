@@ -20,7 +20,7 @@ SCRIPTNAME=/etc/init.d/$NAME
 
 # Default configuration, can be overwritten in /etc/default/$NAME
 # (These defaults assume a Raspberry Pi running Debian!)
-NODE_JS_HOME=/home/pi/Software/node-v0.10.2-linux-arm-pi 
+NODE_JS_HOME=/usr/local
 SPRINKLER_USER=pi
 SPRINKLER_HOME=/home/pi/sprinkler
 
