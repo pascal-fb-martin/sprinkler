@@ -1,17 +1,40 @@
 {
-    "name": "sprinkler",
-    "description": "an app for the beaglebone sprinkler shield",
-    "version": "0.0.1",
-    "private": false,
-    "dependencies": {
-        "express": "4.x",
-        "body-parser": "latest",
-        "moment-timezone": "latest",
-        "nedb": "latest",
-        "graceful-fs": "latest"
-    },
-    "engines": {
-        "node": "latest",
-        "npm": "latest"
-    }
+  "name": "sprinkler",
+  "description": "an app for the beaglebone sprinkler shield",
+  "version": "1.0.0",
+  "private": false,
+  "dependencies": {
+    "express": "4.x",
+    "body-parser": "latest",
+    "moment-timezone": "latest",
+    "nedb": "latest",
+    "serve-static": "latest",
+    "onoff": "latest",
+    "graceful-fs": "latest"
+  },
+  "engines": {
+    "node": "latest",
+    "npm": "latest"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pascal-fb-martin/sprinkler.git"
+  },
+  "keywords": [
+    "irrigation",
+    "sprinkler",
+    "Linux",
+    "beaglebone"
+  ],
+  "author": "Anthony Webb, Pascal Martin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pascal-fb-martin/sprinkler/issues"
+  },
+  "homepage": "https://github.com/pascal-fb-martin/sprinkler#readme"
 }
