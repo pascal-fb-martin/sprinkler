@@ -148,11 +148,21 @@ The last steps is to install all necessary Node.js modules using the npm tool. T
 \subsection{Installing Sprinkler on the Raspberry Pi}
 This section provide some tips about setting up a rasberry Pi for Sprinkler. This is not intended as a complete step by step installation manual: some steps may vary depending on the version of Raspbian used, many standard Linux administration steps are omitted, etc. View the list below as tips, general advices:
 \begin{description}
+\item The installation is different for the Raspberry Pi 2 and 3, compared to the Raspberry Pi B+ and zero. This is because Node.js is build differently for these two ARM architectures: armv7l for the Raspberry Pi 2 and 3, armv6l for the Raspberry Pi B+ and zero.
 \item Remove unused software from the standard Raspbian image. They can take a lot of space, and you will be hit with having to update them regularly. A basic list: scratch, squeak-vm, wolfram-engine, oracle-java7-jdk, java-common.
 \item Update and upgrade your system after installation.
-\item Silence syslog for many Linux daemon (such as ntpd), because periodic logs cause the flash card to age prematurely. The standard way is to redirect "daemon.info;auth.debug" to \texttt{/dev/null}.
+\item Silence syslog for many Linux daemon (such as ntpd), because periodic logs cause the flash card to age prematurely. The standard way is to redirect "daemon.info;auth.debug" to \texttt{/dev/null}. A typical method in Debian is to create a file \texttt{/etc/rsyslog.d/flashdisk.conf} containing:
+\linebreak
+\linebreak
+\indent\texttt{daemon.info;auth.debug      /dev/null}
 \item Create a user account for the Sprinkler software, or else use the default pi account created by Raspbian. Do not run the Sprinkler software as user root.
-\item Install Node.js for the raspberry PI from the Node.js web site (go to \texttt{http://nodejs.org/dist/}). The lastest version of Node.js with which the sprinkler software was tested on the Raspberry Pi is 0.10.26, but try to use the most recent version that exists. Remember than module downloaded using npm will \emph{only} work if Node.js is recent \emph{enough}.
+\item Install Node.js for the raspberry PI from the Node.js web site (go to \texttt{http://nodejs.org/dist/}). The lastest version of Node.js with which the sprinkler software was tested on the Raspberry Pi is 4.2.1, but try to use the most recent version that exists. Remember than module downloaded using npm will \emph{only} work if Node.js is recent \emph{enough}.
+
+\item A method that worked on the Raspberry Pi Zero was to use a Node.js debian package used for Node-Red:
+\linebreak
+\indent\texttt{wget http://node-arm.herokuapp.com/node\_latest\_armhf.deb}
+\linebreak
+\indent\texttt{sudo dpkg -i node\_latest\_armhf.deb}.
 \end{description}
 
 \section{Configuring Sprinkler}
