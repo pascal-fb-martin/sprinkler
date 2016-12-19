@@ -1,8 +1,8 @@
 #! /bin/sh
 ### BEGIN INIT INFO
 # Provides:          sprinkler
-# Required-Start:    $syslog
-# Required-Stop:     $syslog
+# Required-Start:    $syslog $ntp
+# Required-Stop:     $syslog $ntp
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: initscript for the sprinkler control software
