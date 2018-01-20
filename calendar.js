@@ -388,14 +388,14 @@ function descriptionToZones (text) {
              errorLog ('unsupported zone name '+operands[0]);
              return null;
          }
-         if (operands[1].match(/[0-9]+s/)) {
+         if (operands[1].match(/^[0-9]+s$/)) {
              zone.seconds = operands[1].slice(0,-1);
-         } else if (operands[1].match(/[0-9]+m/)) {
+         } else if (operands[1].match(/^[0-9]+m$/)) {
              zone.seconds = operands[1].slice(0,-1) * 60;
-         } else if (operands[1].match(/[0-9]+/)) {
+         } else if (operands[1].match(/^[0-9]+$/)) {
              zone.seconds = operands[1] * 60;
          } else {
-             errorLog ('unsupported duration '+operands[1]);
+             errorLog ('unsupported duration format '+operands[1]);
              return null;
          }
          zones[zones.length] = zone;
