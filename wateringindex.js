@@ -20,9 +20,11 @@
 //     WATERDEX   The watering index from waterdex.com. This uses
 //                the ZIP code to find the proper index.
 //
-//     MWDSOCAL   The watering index from the Metropolitain Water District
-//                of Southern California. The index is valid for the Los
+//     WATERWISE  The watering index from the Metropolitain Water District
+//                of Southern California. This index is valid for the Los
 //                Angeles area.
+//
+//     MWDSOCAL   An alias for WATERWISE (compatibility).
 //
 // DESCRIPTION
 //
@@ -75,7 +77,7 @@
 //                          If missing, the weather module is disabled.
 //
 //   wateringindex.provider Which provider to use to get the watering index
-//                          information. (Optional, default 'waterdex'.)
+//                          information. (Optional, default 'waterwise'.)
 //
 //   wateringindex.refresh  When to refresh watering information. This is
 //                          an array of times of day (hour[:min]). One cannot
@@ -119,9 +121,9 @@ var wateringProviders = {
           return parseInt(index, 10);
        }
     },
-    mwdsocal: {
-       id: 'MWDSOCAL',
-       url: 'http://www.mwdh2o.com/RSS/rsswi.xml',
+    waterwise: {
+       id: 'WATERWISE',
+       url: 'http://www.bewaterwise.com/RSS/rsswi.xml',
        extract: function (text) {
           debugLog ('Searching index in '+text);
           text = text.toLowerCase();
@@ -131,26 +133,29 @@ var wateringProviders = {
              var item = text.substring (text.search(/<item>/), end);
 
              debugLog ('Found item '+item);
-             if (item.search(/weekly watering index/) > 0) {
+             if (item.search(/weekly watering index/i) > 0) {
                 item = item.substring (item.search(/<description>/),
                                        item.search(/<\/description>/));
                 item = item.substring (item.search(/[0-9]/));
                 var index = parseInt(item, 10);
-                debugLog ('found weekly MWDSOCAL watering index '+index);
+                debugLog ('found weekly WATERWISE watering index '+index);
                 return index;
              }
 
              text = text.substring (end+"</item>".length);
           }
-          errorLog ('No weekly index found in MWDSOCAL RSS data');
+          errorLog ('No weekly index found in WATERWISE RSS data');
           return 100;
        }
+    },
+    mwdsocal: {
+       alias: 'waterwise'
     }
 };
 
 var url = null;
 var provider = null;
-var extractWateringIndex = wateringProviders.waterdex.extract;
+var extractWateringIndex = wateringProviders.waterwise.extract;
 
 var debugLog = function (text) {}
 
@@ -168,7 +173,7 @@ function restoreDefaults () {
    enable = false;
    raintrigger = null;
    refreshSchedule = new Array();
-   provider = 'waterdex';
+   provider = 'waterwise';
 
    adjustParameters.min = 30;
    adjustParameters.max = 150;
@@ -190,6 +195,10 @@ exports.configure = function (config, options) {
       if (!wateringProviders[provider]) {
          errorLog ('invalid provider '+provider+', falling back to default');
          restoreDefaults();
+      }
+      if (wateringProviders[provider].alias) {
+         // This is an alias: follow the link.
+         provider = wateringProviders[provider].alias;
       }
    }
    if (oldprovider != provider) {
